@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const express = require('express');
 const Recipes = require('../models/Recipes');
 const HttpError = require('../errors/HttpError');
+const authmiddleware = require('../middleware/auth');
 const router = express.Router();
 
 // @route GET /api/recipes
@@ -46,7 +47,8 @@ router.get("/:id", async (req, res, next) => {
 
 // @route POST /api/recipes
 // @desc Creates a New Recipe
-router.post("/", (req, res, next) => {
+// @access Private (requires Auth)
+router.post("/", authmiddleware, (req, res, next) => {
 
     const {name,description, content, tribe, tags} = req.body;
 
@@ -81,7 +83,8 @@ router.post("/", (req, res, next) => {
 
 // @route UPDATE /api/recipes/<id>
 // @desc Updates a Recipe based on the id
-router.patch("/:id", async (req, res, next) => {
+// @access Private (requires Auth)
+router.patch("/:id", authmiddleware, async (req, res, next) => {
 
     let data;
     try{
@@ -114,7 +117,8 @@ router.patch("/:id", async (req, res, next) => {
 
 // @route DELETE /api/recipes/<id>
 // @desc Deletes a Recipe based on the id
-router.delete("/:id", (req, res, next) => {
+// @access Private (requires Auth)
+router.delete("/:id", authmiddleware, (req, res, next) => {
 
     Recipes.findById(req.params.id)
     .then( recipe => {
@@ -135,5 +139,6 @@ router.delete("/:id", (req, res, next) => {
         })
     })
 })
+
 
 module.exports = router;

@@ -6,6 +6,8 @@ const path = require('path');
 const morgan = require('morgan');
 const connectToMongo = require('./db/connectToMongo')
 const recipesRoutes = require('./routes/recipes');
+const usersRoutes = require('./routes/users');
+const authRouter = require('./routes/auth');
 
 const HttpError = require('./errors/HttpError');
 
@@ -41,6 +43,8 @@ app.use( (req, res, next) => {
 
 // Routes
 app.use("/api/recipes", recipesRoutes)
+app.use("/api/users", usersRoutes)
+app.use("/api/auth", authRouter)
 
 
 // Error handling for unsupported routes 
