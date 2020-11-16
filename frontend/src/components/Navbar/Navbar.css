@@ -1,0 +1,95 @@
+.navbar{
+    padding: 1.5rem 3rem !important;
+    border-bottom: 1px solid rgba(0,255,0,0.75);
+}
+
+.shadow {
+    box-shadow: 0 0.05rem 0.5rem 0 rgba(155, 194, 184, 0.15) !important;
+}
+
+.no-gutters {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.no-gutters > .col,
+.no-gutters > [class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.align-items-center {
+    align-items: center !important;
+}
+
+.navbar-light .navbar-brand{
+    color: #50c878 !important;
+    font-size: 30px !important;
+    font-family: 'Space Mono',monospace;
+}
+
+.navbar-light .navbar-toggler{
+    border: none !important;
+    color: #50c878 !important;
+}
+
+.navbar-light .navbar-toggler-icon{
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280,106,1, 0.85%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+.navbar-light .navbar-toggler-icon:hover{
+    transform: scale(1.05) !important;
+}
+
+.navbar-light .navbar-toggler-icon:focus{
+    outline: none !important;
+}
+
+.navbar-light .navbar-nav .nav-link{
+    position: relative !important;
+    font-size: 18px !important;
+    padding: 20px 0px;
+}
+
+.nav-link:hover{
+    color: #50c878;
+    background: rgba(0,255,0,0.1);
+}
+
+.nav-link.login-register{
+    background: #50c878;
+    padding: 15px !important;
+    margin: auto 10px;
+    vertical-align: middle;
+    border-radius: 20px;
+}
+
+.navbar-light .navbar-text i{
+    color: #50c878;
+    font-size: 30px;
+}
+
+@media (min-width: 992px) {
+.navbar-expand-lg .navbar-collapse {
+    display: flex!important;
+    flex-basis: auto;
+    padding: 0px 50px !important;
+    flex-grow: 2 !important;
+}
+
+.navbar-expand-lg .navbar-nav .nav-link {
+    padding-right: 1.5rem !important;
+    padding-left: 1.5rem !important;
+}
+
+}
+
+@media (max-width : 768px){
+    .navbar-light .navbar-brand{
+        font-size : 20px !important;
+    }
+
+    .nav-link.login-register{
+        margin: 0px;
+    }
+}
