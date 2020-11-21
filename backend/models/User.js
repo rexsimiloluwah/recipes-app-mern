@@ -20,6 +20,15 @@ const UserSchema = mongoose.Schema({
         required : true
     },
 
+    
+    recipes : [
+        {
+            type : mongoose.Schema.Types.ObjectId,
+            required : true,
+            ref : 'Recipes'  // This is to establish a reference between the User model and the Recipes model.
+        }
+    ],
+
     registered_date : {
         type : Date,
         default : Date.now

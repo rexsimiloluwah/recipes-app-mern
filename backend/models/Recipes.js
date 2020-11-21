@@ -18,13 +18,13 @@ const recipesSchema = mongoose.Schema({
 
     tribe : {
         type : String,
-        required : false,
+        required : true,
         trim : true
     },
 
     tags : {
         type : [],
-        required : false,
+        required : true,
         trim : true
     },
 
@@ -34,10 +34,18 @@ const recipesSchema = mongoose.Schema({
         trim : true
     },
 
+    
+    creator : {
+        type : mongoose.Schema.Types.ObjectId,
+        required : true,
+        ref : 'User'  // Establishing a connection between the user and the recipes model for the creator field.
+    },
+
     timestamp : {
         type : Date,
         default : Date.now
     }
+
 })
 
 module.exports = mongoose.model('Recipes', recipesSchema)

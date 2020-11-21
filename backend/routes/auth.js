@@ -8,10 +8,10 @@ const HttpError = require('../errors/HttpError');
 
 const router = express.Router()
 
-// @route POST /api/auth
+// @route POST /api/auth/login
 // @desc Login users.
 
-router.post("/", (req, res, next) => {
+router.post("/login", (req, res, next) => {
     
     const {email, password} = req.body
 
@@ -51,6 +51,7 @@ router.post("/", (req, res, next) => {
                         token,
                         "message" : "Logged in successfully",
                         "user" : {
+                            "username" : user.username,
                             "email" : user.email,
                             "password" : user.password
                         }
@@ -77,6 +78,26 @@ router.get("/users", authmiddleware, (req, res, next) => {
     .catch( err => {
         console.error(err);
         next(new HttpError(err, 500))
+    })
+})
+
+//@route GET /api/auth
+
+router.get("/", (req, res, next) => {
+
+    User.find()
+    .select("-password")
+    .then(users => {
+        res.status(200)
+        .json({
+            "message" : "Successfully queried the list of users",
+            "length" : users.length,
+            "users" : users
+        })
+    })
+    .catch(err => {
+        next(new HttpError(err, 500));
+        console.error(err);
     })
 })
 
