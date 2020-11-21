@@ -14,7 +14,7 @@ $ cd frontend
 $ npm install
 ```
 
-### To run the App ( backend (Node.js and Express) and the frontend (using React.js) concurrently ) :- 
+#### To run the App ( backend (Node.js and Express) and the frontend (using React.js) concurrently ) :- 
 ```
 $ cd backend
 $ npm run dev
