@@ -1,5 +1,4 @@
-import React, {Component, useState} from 'react';
-import uuid from 'uuid';
+import React, {useState} from 'react';
 import CreateRecipeFormModal from '../Modal/CreateRecipeFormModal';
 import {connect} from 'react-redux';
 import {addRecipe} from '../../redux/actions/recipeActions';

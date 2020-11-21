@@ -1,4 +1,4 @@
-const {USER_LOADING, USER_LOADED, AUTH_ERRORS, LOGIN_SUCCESS, LOGIN_FAIL, REGISTER_SUCCESS, REGISTER_FAIL, LOGOUT_SUCCESS} = require('../actions/types');
+const {USER_LOADING, USER_LOADED, AUTH_TOKEN_ERROR, LOGIN_SUCCESS, LOGIN_FAIL, REGISTER_SUCCESS, REGISTER_FAIL, LOGOUT_SUCCESS} = require('../actions/types');
 
 const initialState = {
     token : localStorage.getItem("token"),
@@ -6,6 +6,7 @@ const initialState = {
     isLoading : false,
     user : null
 }
+
 
 export default function(state = initialState, action){
 
@@ -26,8 +27,8 @@ export default function(state = initialState, action){
             }
 
         case LOGIN_SUCCESS:
+            localStorage.setItem("token", action.payload.token)
 
-        case REGISTER_SUCCESS:
             return {
                 ...state,
                 ...action.payload,
@@ -35,10 +36,21 @@ export default function(state = initialState, action){
                 isLoading : false
             }
 
+        case REGISTER_SUCCESS:
+            localStorage.setItem("token", action.payload.token)
+
+            return {
+                ...state,
+                ...action.payload,
+                isAuthenticated : false,
+                isLoading : false
+            }
+
         case LOGIN_FAIL:
+        case AUTH_TOKEN_ERROR:
         case LOGOUT_SUCCESS:
         case REGISTER_FAIL:
-        case AUTH_ERRORS:
+            localStorage.removeItem("token");
             return {
                 ...state,
                 token : null,

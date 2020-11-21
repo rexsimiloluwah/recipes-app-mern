@@ -1,15 +1,27 @@
 import React, {useState} from 'react'
-import {Nav, Navbar, NavbarToggler, Collapse, NavItem, NavLink, NavbarBrand,NavbarText} from 'reactstrap'
-import {Link} from 'react-router-dom';
+import {Nav, Navbar, NavbarToggler, Collapse, NavItem, NavbarBrand,NavbarText} from 'reactstrap'
+import {Link, useHistory} from 'react-router-dom';
 import './Navbar.css';
 import '../../App.css';
 
+import {useSelector, useDispatch} from 'react-redux';
+import {logoutUser} from '../../redux/actions/authActions';
+
 const NavComponent = (props) => {
+
+    const history = useHistory()
+    const auth = useSelector(state => state.auth);
+    const dispatch = useDispatch()
 
     const [isOpen, setIsOpen] = useState(false)
 
     const toggleNav = () => {
         setIsOpen(!isOpen)
+    }
+
+    const logout = () => {
+        dispatch(logoutUser())
+        history.push("/");
     }
 
     return(
@@ -24,16 +36,37 @@ const NavComponent = (props) => {
                         </NavItem>
 
                         <NavItem>
-                            <Link to = "/add-recipe" className="nav-link">View Recipes</Link>
+                            <Link to = "/view-recipes" className="nav-link">View Recipes</Link>
                         </NavItem>
 
+                        { auth.isAuthenticated ? 
                         <NavItem>
-                            <Link to = "/" className="nav-link">Create Recipe</Link>
-                        </NavItem>
+                            <Link to = "/add-recipe" className="nav-link">Create Recipe</Link>
+                        </NavItem> : ""
+                        }
+                        
 
+                        {
+                            auth.isAuthenticated ? "" : 
                         <NavItem>
-                            <Link to = "/" className="nav-link login-register"><i className = "bx bx-user"></i> Login/Register</Link>
+                            <Link to = "/register" className="nav-link login-register"><i className = "bx bx-user"></i> Login/Register</Link>
                         </NavItem>
+                        }
+
+                        {
+                            auth.isAuthenticated ? 
+                        <NavItem>
+                            <span className = "nav-link" onClick = {logout}>Logout</span>
+                        </NavItem> : ""
+                        }
+
+                        {
+                            auth.isAuthenticated ?
+                            <NavItem>
+                                <span className = "navbar-text">Welcome <strong className = "text-uppercase">{auth.user.username}</strong></span>
+                            </NavItem> : ""
+                        }
+                        
 
                     </Nav>
 

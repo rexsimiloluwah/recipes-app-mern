@@ -1,0 +1,34 @@
+body, html{
+    height: 100vh;
+    width: 100%;
+    overflow: none;
+}
+
+section.auth__container{
+    width: 60%;
+    padding: 4rem;
+    margin: auto;
+    box-shadow: 2px 2px 5px rgb(164, 230, 180),
+                2px 2px 5px rgb(164, 230, 180);
+    position: absolute;
+    transform: translate(-50%,-50%);
+    left: 50%;
+    top: 50%;
+    border-radius: 20px;
+}
+
+.form-control, button[type="submit"]{
+    padding: 1.5rem 1rem !important;
+}
+
+button:disabled{
+    cursor: not-allowed;
+}
+
+@media (max-width : 768px){
+
+    section.auth__container{
+        width: 90%;
+        padding: 4rem 1rem;
+    }
+}

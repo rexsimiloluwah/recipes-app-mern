@@ -1,0 +1,16 @@
+const {GET_ERRORS, CLEAR_ERRORS} = require('./types');
+
+// To return errors
+export const returnErrors = (message, status, id = null) =>  {
+    return {
+        type : GET_ERRORS,
+        payload : {message, status, id}
+    }
+}
+
+// To clear the errors 
+export const clearErrors = () =>  {
+    return {
+        type : CLEAR_ERRORS
+    }
+}

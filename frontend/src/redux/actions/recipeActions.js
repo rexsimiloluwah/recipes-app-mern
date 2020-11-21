@@ -1,8 +1,10 @@
-import {GET_RECIPES, ADD_RECIPE, DELETE_RECIPE, UPDATE_RECIPES, RECIPES_LOADING} from './types';
+import {GET_ALL_RECIPES, GET_USER_RECIPES, ADD_RECIPE, DELETE_RECIPE, RECIPES_LOADING} from './types';
 import axios from 'axios';
+import {tokenConfig} from './authActions';
+import {returnErrors} from './errorActions';
 
 // This is the action (They dispatch the reducers)
-export const getRecipes = () => dispatch => {
+export const getAllRecipes = () => dispatch => {
 
     dispatch(setItemsLoading());
 
@@ -11,7 +13,7 @@ export const getRecipes = () => dispatch => {
 
         console.log(res.data)
         dispatch({
-            type : GET_RECIPES,
+            type : GET_ALL_RECIPES,
             payload : res.data["Recipes"]
         })
     })
@@ -21,9 +23,29 @@ export const getRecipes = () => dispatch => {
 
 }
 
-export const deleteRecipe = (id) => dispatch => { 
+// This is the action (They dispatch the reducers)
+export const getUserRecipes = () => (dispatch, getState) => {
 
-    axios.delete(`/api/recipes/${id}`)
+    dispatch(setItemsLoading());
+
+    axios.get("/api/recipes/user", tokenConfig(getState))
+    .then( res => {
+
+        console.log(res.data)
+        dispatch({
+            type : GET_USER_RECIPES,
+            payload : res.data
+        })
+    })
+    .catch(err => {
+        console.error(err)
+    })
+
+}
+
+export const deleteRecipe = (id) => (dispatch, getState) => { 
+
+    axios.delete(`/api/recipes/${id}`, tokenConfig(getState))
     .then( res => {
 
         dispatch({
@@ -33,20 +55,22 @@ export const deleteRecipe = (id) => dispatch => {
     })
     .catch( err => {
         console.error(err);
+        dispatch(returnErrors(err.message, err.status, "DELETE_RECIPE_FAIL"))
     })
 }
 
-export const addRecipe = recipe => dispatch => {
+export const addRecipe = recipe => (dispatch, getState) => {
 
-    axios.post("/api/recipes", recipe)
+    axios.post("/api/recipes", recipe, tokenConfig(getState))
     .then( res => {
         dispatch({
             type : ADD_RECIPE,
-            payload : res.data["data"]
+            payload : res.data
         })
     })
     .catch( err => {
         console.log(err)
+        dispatch(returnErrors(err.message, err.status, "ADD_RECIPE_FAIL"))
     })
   
 }

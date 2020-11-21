@@ -1,24 +1,21 @@
-import React,{useState, useEffect} from 'react';
-import {v4 as uuid} from 'uuid'
-import {connect} from 'react-redux';
-import {getRecipes, deleteRecipe} from '../../redux/actions/recipeActions';
-import PropTypes from 'prop-types';
-import {CircleLoading} from 'react-loadingg';
+import React from 'react';
+import {useDispatch} from 'react-redux';
+import {deleteRecipe} from '../../redux/actions/recipeActions';
+import Loader from "react-loader-spinner";
 import './RecipeList.css';
 
+
 const RecipeList = (props) => {
-    
-    const {getRecipes} = props;
-    
-    useEffect( () => {
-        getRecipes();
-    }, [getRecipes])
+
+    const dispatch = useDispatch();
 
     const handleDeleteRecipe = (id) => {
-        props.deleteRecipe(id)
+        const yes = window.confirm("Are you sure you want to delete this recipe ?")
+        if(yes){
+            dispatch(deleteRecipe(id))
+        }
+        
     }
-
-    const {recipes, loading} = props.recipe;
 
 
     return(
@@ -27,21 +24,24 @@ const RecipeList = (props) => {
             <div className = "container">
                 <div className = "row">
 
-                { loading ? <CircleLoading></CircleLoading> : 
+                { props.recipe.loading ? <div className = "center"><Loader type="Circles" color="#00BFFF" height={120} width={120} style={ {margin:"auto"} }/> </div>: 
 
-            recipes.length === 0 ? <p>No Recipes, Create one to Get started.</p> : 
+            props.recipe.recipes.length === 0 ? <p>No Recipes, Create one to Get started.</p> : 
                                 
-                recipes.map( (recipe, _id) => (
+                props.recipe.recipes.map( (recipe, _id) => (
                         <div className = "col-lg-4 my-2" key = {_id}>
                             <div className = "card">
                                 <div className = "card-body">
                                     <div className = "card-title d-flex justify-content-between">
                                         <div><h5>{recipe.name}</h5></div>
-                                        <div>
-                                            <span onClick = {() => handleDeleteRecipe(recipe._id)} className = "bx bx-trash"></span>
-                                        </div>
+                                    {
+                                        props.delete ? <div>
+                                        <span onClick = {() => handleDeleteRecipe(recipe._id)} className = "bx bx-trash"></span>
+                                    </div> : ""
+                                    }
+                                    
                                     </div>
-                                    <p className = "details"><i className = "bx bx-time"></i> {new Date().toDateString()}    <i className = "bx bx-user"></i> Similoluwa Okunowo</p>
+                                    <p className = "details"><i className = "bx bx-time"></i> {new Date().toDateString()}    <i className = "bx bx-user"></i><strong>{props.creator || recipe.creator.username}</strong></p>
                                     <div className = "card-text">{recipe.description}</div>
 
                                     <div className = "tags d-inline">
@@ -75,15 +75,4 @@ const RecipeList = (props) => {
     )
 }
 
-//PropTypes
-RecipeList.propTypes = {
-    getRecipes : PropTypes.func.isRequired,
-    recipe : PropTypes.object.isRequired
-}
-
-const mapStateToProps = (state) => ({
-    recipe : state.recipe
-}
-)
-
-export default connect(mapStateToProps, {getRecipes, deleteRecipe})(RecipeList);
+export default RecipeList;
